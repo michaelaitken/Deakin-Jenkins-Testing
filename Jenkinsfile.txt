@@ -48,7 +48,7 @@ pipeline {
             emailext (
                 to: "${env.EMAIL_RECIPIENT}",
                 subject: "${env.JOB_NAME} - Build #${env.BUILD_NUMBER} - ${currentBuild.result}",
-                body: "${env.JOB_NAME} - Build # ${env.BUILD_NUMBER} - ${currentBuild.result}: \n\nCheck console output at ${env.BUILD_URL} to view the results.",
+                body: "${env.JOB_NAME} - Build # ${env.BUILD_NUMBER} - ${currentBuild.result}: \n\nCheck console output at ${env.BUILD_URL} to view the results. \n DEMO!!",
                 attachLog: true
             )
         }
