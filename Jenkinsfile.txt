@@ -1,0 +1,56 @@
+pipeline {
+    agent any
+
+    environment {
+        EMAIL_RECIPIENT = 'aitken.michael@outlook.com'
+    }
+
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Building the code using Maven.'
+            }
+        }
+        stage('Unit and Integration Tests') {
+            steps {
+                echo 'Running unit tests using JUnit and integration tests using Selenium.'
+            }
+        }
+        stage('Code Analysis') {
+            steps {
+                echo 'Analysing the code using SonarQube.'
+            }
+        }
+        stage('Security Scan') {
+            steps {
+                echo 'Performing a security scan using OWASP Dependency-Check.'
+            }
+        }
+        stage('Deploy to Staging') {
+            steps {
+                echo 'Deploying the application to a staging server on AWS EC2.'
+            }
+        }
+        stage('Integration Tests on Staging') {
+            steps {
+                echo 'Running integration tests on the staging environment using Selenium.'
+            }
+        }
+        stage('Deploy to Production') {
+            steps {
+                echo 'Deploying the application to a production server on AWS EC2.'
+            }
+        }
+    }
+
+    post {
+        always {
+            emailext (
+                to: "${env.EMAIL_RECIPIENT}",
+                subject: "${env.JOB_NAME} - Build #${env.BUILD_NUMBER} - ${currentBuild.result}",
+                body: "${env.JOB_NAME} - Build # ${env.BUILD_NUMBER} - ${currentBuild.result}: \n\nCheck console output at ${env.BUILD_URL} to view the results.",
+                attachLog: true
+            )
+        }
+    }
+}
